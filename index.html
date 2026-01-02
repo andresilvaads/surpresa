@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nosso Amor</title> 
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 50px;
+      background: #ffe6f0;
+      position: relative;
+      overflow-x: hidden; /* evita scroll horizontal ao mover botão */
+    }
+    button {
+      padding: 10px 20px;
+      margin: 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background-color: #ff6699;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    button:hover {
+      background-color: #ff3366;
+    }
+    #slideShow, #hiddenMessage, #finalMessage, #whyNotReasons, #giveUpButton, #easterEgg, #proposeButton {
+      display: none;
+    }
+    #progressBarContainer {
+      width: 80%;
+      height: 20px;
+      background-color: #eee;
+      margin: 20px auto;
+      border-radius: 10px;
+    }
+    #progressBar {
+      height: 100%;
+      width: 0%;
+      background-color: #ff66cc;
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+    img {
+      max-width: 300px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Oi, meu amor!</h1>
+
+  <div id="slideShow">
+    <img id="slideImage" alt="Foto">
+    <p id="slideText"></p>
+    <button id="nextSlide">Avançar</button>
+  </div>
+
+  <button id="startSlides">Quero te mostrar algo...</button>
+
+  <button id="proposeButton">Tenho algo pra te perguntar...</button>
+
+  <div id="hiddenMessage">
+    <h2>Você aceita casar comigo?</h2>
+    <button id="yesButton">Sim ❤️</button>
+    <button id="noButton">Não 🙈</button>
+    </div>
+    <div id="progressBarContainer">
+      <div id="progressBar"></div>
+    </div>
+    <p id="progressMessage"></p>
+    <div id="funnyMessage"></div>
+  </div>
+
+  <div id="finalMessage">
+    <h2>Eu sabia que você diria sim! 💍😍</h2>
+    <p>Você é minha vida, meu amor, minha família. Que venham muitos e muitos anos juntos!</p>
+  </div>
+
+  <div id="easterEgg">
+    <p>Você descobriu o segredo! 🕵️‍♀️💖</p>
+  </div>
+
+  <audio id="backgroundMusic" src="sua-musica-romantica.mp3" loop></audio>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const startSlides = document.getElementById('startSlides');
+    const slideShow = document.getElementById('slideShow');
+    const slideImage = document.getElementById('slideImage');
+    const slideText = document.getElementById('slideText');
+    const nextSlide = document.getElementById('nextSlide');
+    const proposeButton = document.getElementById('proposeButton');
+
+   const slides = [
+    { img: "imagens/imagem1.png", text: "Tudo começou de um jeito simples… mas mudou tudo." },
+    { img: "imagens/imagem2.png", text: "Naquele dia, eu não sabia, mas já era você." },
+    { img: "imagens/imagem3.png", text: "Entre risadas e conversas bobas, algo nasceu." },
+    { img: "imagens/imagem4.png", text: "Com você, até os dias comuns ficaram especiais." },
+    { img: "imagens/imagem5.png", text: "Descobri que amor também é parceria." },
+    { img: "imagens/imagem6.png", text: "Foi quando percebi que não era só paixão." },
+    { img: "imagens/imagem7.png", text: "Era cuidado, respeito e vontade de ficar." },
+    { img: "imagens/imagem8.png", text: "Mesmo nos dias difíceis, você foi meu abrigo." },
+    { img: "imagens/imagem9.png", text: "A vida ficou mais leve quando caminhamos juntos." },
+    { img: "imagens/imagem10.png", text: "Cada lembrança ao seu lado vale mais que mil palavras." },
+    { img: "imagens/imagem11.png", text: "Construímos histórias que só nós entendemos." },
+    { img: "imagens/imagem12.png", text: "Aprendi que amar é escolher todos os dias." },
+    { img: "imagens/imagem13.png", text: "Vocês viraram meu lar, mesmo fora de casa." },
+    { img: "imagens/imagem14.png", text: "O amor amadureceu, ficou forte, ficou real." },
+    { img: "imagens/imagem15.png", text: "Vivemos momentos incríveis, e ainda viveremos muitos mais." },
+    { img: "imagens/imagem16.png", text: "E então nossa maior bênção chegou… nossa filha ❤️" }
+];
+    let current = -1;
+
+    startSlides.addEventListener('click', () => {
+      startSlides.style.display = 'none';
+      slideShow.style.display = 'block';
+      current = 0;
+      slideImage.src = slides[current].img;
+      slideText.textContent = slides[current].text;
+    });
+
+    nextSlide.addEventListener('click', () => {
+      current++;
+      if (current < slides.length) {
+        slideImage.src = slides[current].img;
+        slideText.textContent = slides[current].text;
+      } else {
+        slideShow.style.display = 'none';
+        proposeButton.style.display = 'inline-block';
+      }
+    });
+
+    // Pedido começa aqui
+    const hiddenMessage = document.getElementById('hiddenMessage');
+    const finalMessage = document.getElementById('finalMessage');
+    const yesButton = document.getElementById('yesButton');
+    const noButton = document.getElementById('noButton');
+    const whyNotButton = document.getElementById('whyNotButton');
+    const giveUpButton = document.getElementById('giveUpButton');
+    const whyNotReasons = document.getElementById('whyNotReasons');
+    const progressBar = document.getElementById('progressBar');
+    const progressMessage = document.getElementById('progressMessage');
+    const funnyMessage = document.getElementById('funnyMessage');
+    const music = document.getElementById('backgroundMusic');
+
+    const messages = [
+      "Tem certeza? Vamos pensar de novo!",
+      "Você está me fazendo trabalhar por isso 😂",
+      "Aceita logo vai...",
+      "Você não vai resistir pra sempre!",
+      "💘Esse botão corre, mas meu coração só encontrou mais amor por você.",
+      "Você não vai escapar tão fácil!",
+    ];
+
+    const gifs = [
+      "https://media.giphy.com/media/3o7TKSjRrfIPjeiVyM/giphy.gif",
+      "https://media.giphy.com/media/l0HlTy9x8FZo0XO1i/giphy.gif",
+      "https://media.giphy.com/media/3o7aD2d7hy9ktXNDP2/giphy.gif"
+    ];
+
+    let noCount = 0;
+
+    proposeButton.addEventListener('click', () => {
+      proposeButton.style.display = 'none';
+      hiddenMessage.style.display = 'block';
+    });
+
+    yesButton.addEventListener('click', () => {
+      hiddenMessage.style.display = 'none';
+      finalMessage.style.display = 'block';
+      confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      // música só pode tocar após interação do usuário (este clique)
+      music.play();
+    });
+
+    noButton.addEventListener('mouseenter', () => {
+      noCount++;
+      const progressWidth = Math.min((noCount / 10) * 100, 100);
+      progressBar.style.width = `${progressWidth}%`;
+      progressMessage.textContent = messages[noCount % messages.length];
+
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const buttonWidth = noButton.offsetWidth;
+      const buttonHeight = noButton.offsetHeight;
+      const randomX = Math.random() * (viewportWidth - buttonWidth);
+      const randomY = Math.random() * (viewportHeight - buttonHeight);
+      noButton.style.position = 'absolute';
+      noButton.style.left = `${randomX}px`;
+      noButton.style.top = `${randomY}px`;
+
+      const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
+      funnyMessage.innerHTML = `<img src="${randomGif}" alt="Funny GIF">`;
+
+      confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
+
+      if (noCount >= 10) {
+        giveUpButton.style.display = 'inline-block';
+      }
+    });
+
+    whyNotButton.addEventListener('click', () => {
+      whyNotReasons.style.display = 'block';
+    });
+
+    giveUpButton.addEventListener('click', () => {
+      alert("Você venceu... por enquanto! 😘");
+    });
+
+    document.addEventListener('click', (event) => {
+      if (event.clientX < 100 && event.clientY < 100) {
+        const easterEgg = document.getElementById('easterEgg');
+        easterEgg.style.display = 'block';
+        setTimeout(() => {
+          easterEgg.style.display = 'none';
+        }, 2000);
+      }
+    });
+  </script>
+</body>
+</html>
